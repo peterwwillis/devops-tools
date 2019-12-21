@@ -1,0 +1,2 @@
+DOCKER_IMG_NAME=jenkins-manager
+DOCKER_TAG_NAME=latest
