@@ -1,11 +1,5 @@
 # `os/linux/docker/jenkins/jenkins-agent/`
 
-## Usage
- - To build the agent container, run:
-   ```bash
-   $ make
-   ```
-
 ## About
 This directory creates a container to use to build a Jenkins Agent. This agent is used by the Jenkins Manager to run builds or jobs.
 
@@ -18,3 +12,9 @@ A Jenkins Manager is set up to add 'nodes', which are traditionally an entire co
 When a Jenkins job is executed on an Agent, the Manager will run commands inside the Agent as instructed by the job. Whatever your job needs to do, it will potentially be doing it inside the Agent container.
 
 It is common to set up an Agent with all the software required for your job/build. You might also have multiple agents set up with different pre-requisites for different kinds of jobs/builds.
+
+## Usage
+ - To build the agent container, run:
+   ```bash
+   $ make
+   ```

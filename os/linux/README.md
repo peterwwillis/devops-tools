@@ -4,4 +4,4 @@
 Linux Docker containers, tools, etc
 
 ## [slackware/](./slackware/)
-# Slackware Linux-specific tools, etc
+Slackware Linux-specific tools, etc
