@@ -18,3 +18,14 @@ USER jenkins
 
 COPY plugins.txt /tmp/plugins.txt
 RUN /usr/local/bin/install-plugins.sh `cat /tmp/plugins.txt`
+
+# Copy the sample jenkins config into the ref directory.
+# This is copied into $JENKINS_HOME at runtime.
+# We still want the CASC_JENKINS_CONFIG to point at $JENKINS_HOME, though
+RUN mkdir -p /usr/share/jenkins/ref/casc_configs
+COPY jenkins.yaml /usr/share/jenkins/ref/casc_configs/jenkins.yaml
+ENV CASC_JENKINS_CONFIG=$JENKINS_HOME/casc_configs
+
+# Don't run the setup wizard at start time
+# (potentially dangerous if your initial setup doesn't include authentication!)
+ENV JAVA_OPTS=-Djenkins.install.runSetupWizard=false
