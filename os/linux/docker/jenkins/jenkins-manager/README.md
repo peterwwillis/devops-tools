@@ -4,9 +4,15 @@
 This directory builds the Jenkins Manager (aka 'Jenkins Master') container.
 
 ## Usage
+Prerequisites: Docker, Make.
+
  - To build the container, run:
    ```bash
-   $ make
+   $ make docker-build
+   ```
+ - To run the container, run:
+   ```bash
+   $ ./docker-run.sh
    ```
 
 ## Files
