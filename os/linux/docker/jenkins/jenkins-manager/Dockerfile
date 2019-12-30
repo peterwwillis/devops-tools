@@ -19,6 +19,8 @@ USER jenkins
 COPY plugins.txt /tmp/plugins.txt
 RUN /usr/local/bin/install-plugins.sh `cat /tmp/plugins.txt`
 
+LABEL JENKINS_NODE=manager
+
 # Copy the sample jenkins config into the ref directory.
 # This is copied into $JENKINS_HOME at runtime.
 # We still want the CASC_JENKINS_CONFIG to point at $JENKINS_HOME, though

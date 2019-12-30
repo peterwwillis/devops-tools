@@ -1,5 +1,7 @@
 FROM jenkins/jnlp-slave
 
+LABEL JENKINS_NODE=agent
+
 USER root
 
 COPY jenkins-slave /usr/local/bin/jenkins-slave
