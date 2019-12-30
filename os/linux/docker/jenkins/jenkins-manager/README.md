@@ -18,4 +18,4 @@ Prerequisites: Docker, Make.
 ## Files
 
 ### `docker-run.sh`
- - This script will just run the Docker container with the '8080' port exposed, and pass along any command-line arguments. It also volume-mounts `/var/jenkins_home`, `~/.aws`, and `/var/run/docker.sock`, making it easier for you to test Jenkins on your local system.
+ - This script will just run the Docker container with the '8080' port exposed, and pass along any command-line arguments. It also creates a Docker volume for `/var/jenkins_home`, and volume-mounts the local directories `~/.aws`, `~/.ssh`, and `/var/run/docker.sock` file, making it easier for you to test Jenkins on your local system.
