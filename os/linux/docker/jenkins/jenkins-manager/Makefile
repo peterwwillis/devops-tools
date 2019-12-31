@@ -3,7 +3,11 @@ export
 
 build: docker-build
 docker-build:
-	docker build -t $(DOCKER_IMG_NAME):$(DOCKER_TAG_NAME) .
+	docker build -t $(DOCKER_IMG_NAME):$(DOCKER_TAG_NAME) \
+		--build-arg DOCKER_GID=$(DOCKER_GID) \
+		--build-arg JENKINS_UID=$(JENKINS_UID) \
+		--build-arg JENKINS_GID=$(JENKINS_GID) \
+		.
 
 run: docker-run
 # This is meant to test the container on a developer's laptop, not for production services.

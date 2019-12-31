@@ -7,6 +7,8 @@ set -e -u -x
 
 docker run --rm -it \
     -p $DOCKER_JENKINS_INTERNAL_PORT:$DOCKER_JENKINS_EXTERNAL_PORT \
+    -p $DOCKER_JENKINS_INTERNAL_JNLP_PORT:$DOCKER_JENKINS_EXTERNAL_JNLP_PORT \
+    -e JENKINS_SLAVE_AGENT_PORT=$DOCKER_JENKINS_INTERNAL_JNLP_PORT \
     -v ~/.aws:/home/jenkins/.aws:ro \
     -v ~/.ssh:/home/jenkins/.ssh:ro \
     -v /var/run/docker.sock:/var/run/docker.sock \

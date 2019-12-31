@@ -20,6 +20,9 @@ credentials-binding
 display-url-api
 docker-commons
 docker-workflow
+docker-java-api
+docker-plugin
+docker-swarm
 durable-task
 favorite
 generic-webhook-trigger

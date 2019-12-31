@@ -33,7 +33,8 @@ Prerequisites: Docker, Make.
  - These are the Jenkins plugins that will be downloaded and installed **at build time**. Best practice is to start with a list like this, then extract the installed versions at run-time, and pin the version numbers in the `plugins.txt` file, so that upgrades in the future don't break your Jenkins jobs. (It's quite common for plugin updates to just randomly break things)
 
 ### `env`
- - Environment variables loaded by the `Makefile` and `docker-run.sh` script.
+ - Environment variables loaded by the `Makefile` and `docker-run.sh` script. Useful variables to note:
+   - **DOCKER_GID** - This should be the group ID of the Docker group on your local host. This way when you try to use `/var/run/docker.sock` from a Jenkins container, it will have permissions to write to the socket. This is used by the `Dockerfile` at build time.
 
 ### `docker-run.sh`
  - This script will just run the Docker container with the '8080' port exposed, and pass along any command-line arguments. It also creates a Docker volume for `/var/jenkins_home`, and volume-mounts the local directories `~/.aws`, `~/.ssh`, and `/var/run/docker.sock` file, making it easier for you to test Jenkins on your local system.

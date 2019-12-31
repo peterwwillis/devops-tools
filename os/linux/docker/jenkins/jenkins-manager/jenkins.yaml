@@ -1,18 +1,30 @@
 jenkins:
-  agentProtocols:
-  - "JNLP4-connect"
-  - "Ping"
+  systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\n"
+  numExecutors: 5
+  scmCheckoutRetryCount: 2
+  mode: EXCLUSIVE # set to NORMAL to allow running jobs on the master
+
+  globalNodeProperties:
+    - envVars:
+        env:
+          - key: FOO
+            value: BAR
+
   authorizationStrategy:
     loggedInUsersCanDoAnything:
       allowAnonymousRead: false
+
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: false
+
   disableRememberMe: false
   markupFormatter: "plainText"
-  mode: NORMAL
   myViewsTabBar: "standard"
-  numExecutors: 2
   primaryView:
     all:
       name: "all"
@@ -20,7 +32,6 @@ jenkins:
   quietPeriod: 5
   remotingSecurity:
     enabled: true
-  scmCheckoutRetryCount: 0
   securityRealm:
     local:
       allowsSignup: false
@@ -37,6 +48,8 @@ jenkins:
   - all:
       name: "all"
   viewsTabBar: "standard"
+
+
 security:
   apiToken:
     creationOfLegacyTokenEnabled: false
@@ -44,6 +57,22 @@ security:
     usageStatisticsEnabled: true
   sSHD:
     port: -1
+# the following is for jenkins <2.165
+##  remotingCLI:
+##    enabled: false
+
+
+##credentials:
+##  system:
+##    domainCredentials:
+##      - credentials:
+##          - string:
+##              scope: GLOBAL
+##              id: slack-token
+##              secret: "${SLACK_TOKEN}"
+##              description: Slack token
+
+
 unclassified:
   buildStepOperation:
     enabled: false
@@ -75,6 +104,19 @@ unclassified:
     globalUpstreamFilterStrategy: UseOldest
   whitelist:
     enabled: false
+##  artifactorybuilder:
+##    useCredentialsPlugin: true
+##    artifactoryServers:
+##      - serverId: artifactory
+##        artifactoryUrl: http://acme.com/artifactory
+##        resolverCredentialsConfig:
+##          username: artifactory_user
+##          password: ${ARTIFACTORY_PASSWORD}
+##  slackNotifier:
+#     teamDomain: <your-slack-workspace-name> # i.e. your-company (just the workspace name not the full url)
+#       tokenCredentialId: slack-token
+#
+
 tool:
   git:
     installations:
