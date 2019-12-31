@@ -12,11 +12,13 @@ The `jenkins-*` directories here create different Docker containers for Jenkins.
 
  - The container drops you in as the user `jenkins`. By default, this user's home directory is `/var/jenkins_home`. But this directory is usually volume-mounted in as a persistent volume for Jenkins jobs and configuration, and a user home directory may have a lot of other files in it. So these containers have been modified to add a `/home/jenkins` home directory for the user.
 
- - The `docker` group has been added, and the `jenkins` user is added to it. You can override the group ID of Docker by passing *DOCKER_GID* as a build argument to `docker build`.
+ - The `docker` group has been added, and the `jenkins` user is added to it. You can override the group ID of Docker by passing *DOCKER_GID* as a build argument to **docker build** or setting it in the `env` file.
 
- - The `jenkins` UID and GID can be overridden by passing *JENKINS_UID* and *JENKINS_GID* as build arguments to `docker build`.
+ - The `jenkins` UID and GID can be overridden by passing *JENKINS_UID* and *JENKINS_GID* as build arguments to **docker build** or setting them in the `env` file.
 
  - Much more information about configuring, running, overriding, etc the Jenkins containers is found here: https://github.com/jenkinsci/docker
+
+ - More useful background on how distributed builds work in Jenkins is here: https://wiki.jenkins.io/display/JENKINS/Distributed+builds
 
 ## Files
 

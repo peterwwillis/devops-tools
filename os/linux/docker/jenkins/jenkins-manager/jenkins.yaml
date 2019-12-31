@@ -69,7 +69,6 @@ jenkins:
       name: "local-docker"
       templates:
       - connector:
-          # Using the attach method, you probably don't need to expose the JNLP port.
           attach:
             user: "jenkins"
         dockerTemplateBase:
@@ -77,7 +76,7 @@ jenkins:
         labelString: "local-docker-agent"
         pullStrategy: PULL_ALWAYS
         pullTimeout: 300
-        remoteFs: "/home/jenkins"
+        remoteFs: "/home/jenkins/agent"
         removeVolumes: true
 
 # This is commented out because we pass it using an environment variable to the
