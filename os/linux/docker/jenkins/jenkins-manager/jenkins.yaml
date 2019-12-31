@@ -1,14 +1,20 @@
 jenkins:
   systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\n"
-  numExecutors: 5
+  numExecutors: 10
   scmCheckoutRetryCount: 2
-  mode: EXCLUSIVE # set to NORMAL to allow running jobs on the master
 
-  globalNodeProperties:
-    - envVars:
-        env:
-          - key: FOO
-            value: BAR
+  # The following two lines should prevent any jobs from running on the master unless
+  # the job uses the 'jenkins-master' label.
+  # Instead, the 'docker cloud' configured below will by default run any build job using
+  # the Docker Cloud build agent template.
+  mode: EXCLUSIVE # set to NORMAL to allow running any jobs on the master
+  labelString: "jenkins-master"
+
+##  globalNodeProperties:
+##    - envVars:
+##        env:
+##          - key: FOO
+##            value: BAR
 
   authorizationStrategy:
     loggedInUsersCanDoAnything:
@@ -24,14 +30,12 @@ jenkins:
 
   disableRememberMe: false
   markupFormatter: "plainText"
-  myViewsTabBar: "standard"
-  primaryView:
-    all:
-      name: "all"
   projectNamingStrategy: "standard"
   quietPeriod: 5
+
   remotingSecurity:
     enabled: true
+
   securityRealm:
     local:
       allowsSignup: false
@@ -39,15 +43,46 @@ jenkins:
       users:
       - id: "admin"
         password: "admin"
-  slaveAgentPort: 50000
-  updateCenter:
-    sites:
-    - id: "default"
-      url: "https://updates.jenkins.io/update-center.json"
+
+  primaryView:
+    all:
+      name: "all"
   views:
   - all:
       name: "all"
   viewsTabBar: "standard"
+  myViewsTabBar: "standard"
+
+
+  clouds:
+  - docker:
+      dockerApi:
+        connectTimeout: 60
+        dockerHost:
+          # Change this URI to "tcp://host:port" for a remote Docker daemon.
+          # If using unix://, make sure the docker.sock file is volume-mounted into
+          # the Jenkins Master container at run-time, and that the file is writable
+          # by the DOCKER_GID group id built into the Jenkins Master container.
+          uri: "unix:///var/run/docker.sock"
+        readTimeout: 60
+      exposeDockerHost: true
+      name: "local-docker"
+      templates:
+      - connector:
+          # Using the attach method, you probably don't need to expose the JNLP port.
+          attach:
+            user: "jenkins"
+        dockerTemplateBase:
+          image: "jenkins/jnlp-slave"
+        labelString: "local-docker-agent"
+        pullStrategy: PULL_ALWAYS
+        pullTimeout: 300
+        remoteFs: "/home/jenkins"
+        removeVolumes: true
+
+# This is commented out because we pass it using an environment variable to the
+# Jenkins start-up scripts in the container.
+##  slaveAgentPort: 50000
 
 
 security:
@@ -57,7 +92,7 @@ security:
     usageStatisticsEnabled: true
   sSHD:
     port: -1
-# the following is for jenkins <2.165
+# the following is only for jenkins <2.165
 ##  remotingCLI:
 ##    enabled: false
 
@@ -74,21 +109,23 @@ security:
 
 
 unclassified:
+  location:
+    adminAddress: "address not configured yet <nobody@nowhere>"
+    url: "http://localhost:8080/"
+
+  gitHubPluginConfig:
+    hookUrl: "http://localhost:8080/github-webhook/"
+
   buildStepOperation:
     enabled: false
   defaultFolderConfiguration:
     healthMetrics:
     - worstChildHealthMetric:
         recursive: true
-  gitHubPluginConfig:
-    hookUrl: "http://localhost:8080/github-webhook/"
   gitSCM:
     createAccountBasedOnEmail: false
     showEntireCommitSummaryInChanges: false
     useExistingAccountWithSameEmail: false
-  location:
-    adminAddress: "address not configured yet <nobody@nowhere>"
-    url: "http://localhost:8080/"
   mailer:
     charset: "UTF-8"
     useSsl: false
@@ -113,12 +150,6 @@ unclassified:
 ##          username: artifactory_user
 ##          password: ${ARTIFACTORY_PASSWORD}
 ##  slackNotifier:
-#     teamDomain: <your-slack-workspace-name> # i.e. your-company (just the workspace name not the full url)
-#       tokenCredentialId: slack-token
-#
+##     teamDomain: <your-slack-workspace-name> # i.e. your-company (just the workspace name not the full url)
+##       tokenCredentialId: slack-token
 
-tool:
-  git:
-    installations:
-    - home: "git"
-      name: "Default"
